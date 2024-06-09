@@ -1,22 +1,26 @@
 printf "\x1bc\x1b[43;37m"
 roots=/mnt/isos
-tmps=/tmp/lists.txt
-tmps2=/tmp/lists2.txt
-printf "" > $tmps
+tmps=/mnt/isos/tmp/lists.txt
+tmps2=/mnt/isos/tmp/lists2.txt
+
 dd if=/dev/zero of="/tmp/my.img" bs=1k count=30000
-sudo chmod 777 $tmps
-sudo chmod 777 $tmps2
+
 sudo chmod 777 "/tmp/my.img"
 sudo mkfs.vfat "/tmp/my.img" 
 sudo chmod 777 "/tmp/my.img"
 as hello.asm -o /tmp/hello.o
 ld  -dynamic-linker /lib/i386-linux-gnu/ld-linux.so.2 /lib/i386-linux-gnu/libc.so.6 /lib/i386-linux-gnu/libc.a /tmp/hello.o -o /tmp/hello
-mkdir -p $roots
+mkdir $roots
 sudo mount "/tmp/my.img" $roots -o loop -t vfat 
+mkdir -p $roots/tmp
+printf "" > $tmps
+printf "" > $tmps2
+sudo chmod 777 $tmps
+sudo chmod 777 $tmps2
 mkdir -p $roots/usr
 mkdir -p $roots/usr/bin
 mkdir -p $roots/bin
-mkdir -p $roots/tmp
+
 mkdir -p $roots/lib
 mkdir -p $roots/dev
 mkdir -p $roots/boot
